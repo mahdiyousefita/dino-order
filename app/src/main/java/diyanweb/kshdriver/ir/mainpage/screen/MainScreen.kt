@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import diyanweb.kshdriver.ir.mainpage.component.CustomSwipeRefreshLayout
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -88,15 +89,19 @@ fun MainScreen(navController: NavController, onWebViewReady: (WebView) -> Unit) 
     // Load cookies from persistent storage
     loadCookies(context, webView, appurl)
 
-//    webView.webViewClient = object : WebViewClient() {
-//        override fun shouldOverrideUrlLoading(
-//            view: WebView?,
-//            request: WebResourceRequest?
-//        ): Boolean {
-//            view?.loadUrl(request?.url.toString())
-//            return true
-//        }
-//    }
+
+    // Variable to control swipe refresh
+    var isSwipeRefreshEnabled by remember { mutableStateOf(true) }
+
+    // Set WebViewClient to monitor URL changes
+    webView.webViewClient = object : WebViewClient() {
+        override fun onPageFinished(view: WebView?, url: String?) {
+            super.onPageFinished(view, url)
+            // Disable swipe refresh if it's the specific URL
+            isSwipeRefreshEnabled = url == "https://app.diyan.ir/specific-page" // Change this to your specific URL
+        }
+    }
+
     webView.webChromeClient = object : WebChromeClient() {
         override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
             // Handle full-screen content if needed
@@ -117,22 +122,14 @@ fun MainScreen(navController: NavController, onWebViewReady: (WebView) -> Unit) 
     // Notify MainActivity that WebView is ready
     onWebViewReady(webView)
 
-//        LazyRow(
-//            Modifier.fillMaxSize().background(Color.Black)
-//        ) {
-//            item {
-//                Card(modifier = Modifier.fillMaxWidth().background(Color.Black)){
-//                    WebViewScreen(webView = webView)
-//                }
-//            }
-//        }
 
     val scrollState = rememberScrollState()
+
     Row(
         Modifier
             .fillMaxSize()
     ) {
-        WebViewScreen(webView)
+        WebViewScreen(webView, isSwipeRefreshEnabled, 0.5f)
     }
 
     // Save cookies when the activity is paused
@@ -162,69 +159,18 @@ fun loadCookies(context: Context, webView: WebView, appurl: String) {
 }
 
 
-@Composable
-fun WebView() {
-    // Declare a string that contains a URL
-    val mUrl = "https://app.diyan.ir/"
-
-    // Adding a WebView inside AndroidView with layout as full screen
-    AndroidView(factory = {
-        WebView(it).apply {
-            this.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            this.webChromeClient = CustomWebChromeClient()
-            this.webViewClient = CustomWebViewClient() // Set the custom WebViewClient
-
-            with(settings) {
-                javaScriptEnabled = true
-                domStorageEnabled = true
-                mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-                allowContentAccess = true
-                setSupportMultipleWindows(true)
-                setJavaScriptCanOpenWindowsAutomatically(true)
-                cacheMode = android.webkit.WebSettings.LOAD_DEFAULT
-                setDatabaseEnabled(true)
-                setGeolocationEnabled(true)
-                setMediaPlaybackRequiresUserGesture(false)
-                setAllowFileAccess(true)
-                textZoom = 100
-                setUseWideViewPort(true) // Enable wide viewport
-                loadWithOverviewMode = true // Load in overview mode
-            }
-        }
-    }, update = {
-        it.loadUrl(mUrl)
-    })
-}
-
-class CustomWebViewClient : WebViewClient() {
-    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        // Load the URL within the WebView
-        view?.loadUrl(request?.url.toString())
-        return true // Indicate that you handled the event
-    }
-}
-
-class CustomWebChromeClient : WebChromeClient() {
-    override fun onCloseWindow(window: WebView?) {}
-
-    override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
-        // Handle console messages if needed
-        return super.onConsoleMessage(consoleMessage)
-    }
-}
 
 @Composable
-fun WebViewScreen(webView: WebView) {
+fun WebViewScreen(webView: WebView, isSwipeRefreshEnabled: Boolean, swipeSensitivity: Float) {
     val refreshScope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
 
     AndroidView(
         modifier = Modifier.fillMaxSize(),
         factory = { context ->
-            SwipeRefreshLayout(context).apply {
+            CustomSwipeRefreshLayout(context).apply {
+//                isEnabled = isSwipeRefreshEnabled
+                this.swipeSensitivity = swipeSensitivity
                 setOnRefreshListener {
                     refreshScope.launch {
                         refreshing = true
