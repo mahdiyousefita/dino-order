@@ -1,5 +1,6 @@
 package diyanweb.kshdriver.ir.mainpage.screen
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.view.View
@@ -11,6 +12,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.horizontalScroll
@@ -44,14 +46,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.ramcosta.composedestinations.annotation.Destination
 import diyanweb.kshdriver.ir.mainpage.component.CustomSwipeRefreshLayout
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
+@Destination
 @Composable
-fun MainScreen(navController: NavController, onWebViewReady: (WebView) -> Unit) {
+fun MainScreen() {
     val context = LocalContext.current
+
+    val activity = LocalContext.current as? Activity
     val webView = remember { WebView(context) }
 
     val appurl  = "https://app.diyan.ir/"
@@ -119,8 +125,16 @@ fun MainScreen(navController: NavController, onWebViewReady: (WebView) -> Unit) 
         webView.loadUrl(appurl)
     }
 
+    BackHandler {
+        if (webView?.canGoBack() == true) {
+            webView?.goBack()  // Go back in WebView
+        } else {
+            activity?.finish()  // Exit if no page to go back
+        }
+    }
+
     // Notify MainActivity that WebView is ready
-    onWebViewReady(webView)
+//    onWebViewReady(webView)
 
 
     val scrollState = rememberScrollState()
@@ -139,6 +153,8 @@ fun MainScreen(navController: NavController, onWebViewReady: (WebView) -> Unit) 
         }
     }
 }
+
+
 
 // Function to save cookies
 fun saveCookies(context: Context, appurl: String) {

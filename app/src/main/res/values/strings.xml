@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">دیان | شرکت ها و موسسات</string>
+    <string name="and">and</string>
+    <string name="english">English (انگلیسی)</string>
+    <string name="farsi">Farsi (فارسی)</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="light_theme">Light Theme</string>
+    <string name="system_settings">System Settings</string>
+    <string name="error">Error</string>
+    <string name="successful">Successful</string>
+    <string name="empty" translatable="false" />
+    <string name="dialog_type_icon">dialog type icon</string>
+    <string name="ok">accept</string>
+
 </resources>

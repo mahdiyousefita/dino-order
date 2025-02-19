@@ -1,4 +1,4 @@
-package diyanweb.kshdriver.ir.ui.theme
+package diyanweb.kshdriver.ir.corefeature.presentation.activity.theme
 
 import android.app.Activity
 import android.os.Build

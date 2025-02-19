@@ -9,7 +9,7 @@
     <application
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
-        android:name=".Application"
+        android:name=".DiyanWebApplication"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -19,7 +19,7 @@
         android:theme="@style/Theme.Diyan_Web_App"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".corefeature.presentation.activity.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

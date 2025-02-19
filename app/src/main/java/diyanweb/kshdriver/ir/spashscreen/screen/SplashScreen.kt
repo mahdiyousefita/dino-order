@@ -24,13 +24,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import diyanweb.kshdriver.ir.MainActivity
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import diyanweb.kshdriver.ir.corefeature.presentation.activity.MainActivity
 import diyanweb.kshdriver.ir.R
+import diyanweb.kshdriver.ir.spashscreen.viewmodel.SpashViewModel
 import kotlinx.coroutines.delay
 
+
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun SplashScreen(navController: NavController) {
+    val viewModel: SpashViewModel = hiltViewModel()
+
 
     val context = LocalContext.current
 
@@ -41,13 +50,7 @@ fun SplashScreen(navController: NavController) {
         val intent = Intent(context, MainActivity::class.java)
 
         // Navigate to the main page and pop the splash screen from the back stack
-        navController.navigate("main_page") {
-            // Pop up to the splash screen, effectively removing it
-            popUpTo("splash_screen") {
-                inclusive = true // This removes the splash screen from the back stack
-            }
-            launchSingleTop = true
-        }
+        viewModel.navigateToNextScreen()
     }
     // Create an infinite animation transition for the app logo
     val infiniteTransition = rememberInfiniteTransition()

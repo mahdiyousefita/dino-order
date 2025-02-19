@@ -1,4 +1,4 @@
-package diyanweb.kshdriver.ir.ui.theme
+package diyanweb.kshdriver.ir.corefeature.presentation.activity.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
