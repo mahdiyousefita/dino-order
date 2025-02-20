@@ -1,4 +1,5 @@
 [versions]
+accompanistSystemuicontroller = "0.31.1-alpha"
 agp = "8.5.0"
 core = "1.8.42-beta"
 datastorePreferences = "1.1.1"
@@ -27,6 +28,7 @@ navigationCompose = "2.7.7"
 hilt-compose = "1.2.0"
 ksp = "1.9.23-1.0.20"
 [libraries]
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
