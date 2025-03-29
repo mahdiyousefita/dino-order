@@ -1,10 +1,6 @@
 package com.dino.order.mainpage.screen
 
 import android.app.Activity
-import android.os.Build
-import android.view.View
-import android.webkit.CookieManager
-import android.webkit.WebChromeClient
 import android.webkit.WebView
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Row
@@ -12,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,13 +16,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.ramcosta.composedestinations.annotation.Destination
 import com.dino.order.corefeature.presentation.activity.theme.StatusBarColor
 import com.dino.order.errorfeature.presentation.screen.ErrorScreen
 import com.dino.order.mainpage.viewmodel.MainScreenViewModel
 import com.dino.order.nointernetfeature.presentation.screen.NoInternetScreen
-import com.dino.order.webviewfeature.presentation.screen.WebViewScreen
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.delay
 
 
@@ -46,52 +40,17 @@ fun MainScreen() {
     val systemUiController = rememberSystemUiController()
 
 
-    // Enable WebView debugging
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-        WebView.setWebContentsDebuggingEnabled(true)
-    }
-
-
-    // Enable cookies
-    val cookieManager = CookieManager.getInstance()
-    cookieManager.setAcceptCookie(true)
-    webViewInstance?.let { cookieManager.setAcceptThirdPartyCookies(it, true) }
-
-    // Load cookies from persistent storage
-    webViewInstance?.let { viewModel.loadCookies(context, it, viewModel.appUrl) }
-
     // Swipe refresh state
     var isSwipeRefreshEnabled by remember { mutableStateOf(true) }
 
-    webViewInstance?.webChromeClient = object : WebChromeClient() {
-        override fun onShowCustomView(view: View?, callback: CustomViewCallback?) {
-            super.onShowCustomView(view, callback)
-        }
-
-        override fun onProgressChanged(view: WebView?, newProgress: Int) {
-            super.onProgressChanged(view, newProgress)
-        }
-    }
 
     // Handle back press
     BackHandler {
-        webViewInstance?.let {
-            if (it.canGoBack()) {
-                it.goBack()
-            } else {
-                activity?.finish()
-            }
-        }
+        // todo
     }
 
-    // Save cookies when the activity is paused
-    DisposableEffect(Unit) {
-        onDispose {
-            viewModel.saveCookies(context, viewModel.appUrl) // Save cookies when leaving the screen
-        }
-    }
 
-    // Monitor network status & recreate WebView when needed
+    // Monitor network status
     LaunchedEffect(Unit) {
         while (true) {
             isNoInternet = !viewModel.isConnected(context)
@@ -99,13 +58,6 @@ fun MainScreen() {
         }
     }
 
-    // Initialize WebView on first launch
-    LaunchedEffect(Unit) {
-        if (webViewInstance == null && viewModel.isConnected(context)) {
-            isNoInternet = false
-            webViewInstance = viewModel.createWebView()
-        }
-    }
     isNoInternet = !viewModel.isConnected(context)
     Scaffold { innerPadding ->
         systemUiController.setStatusBarColor(StatusBarColor)
@@ -119,19 +71,12 @@ fun MainScreen() {
                 isNoInternet -> NoInternetScreen {
                     if (viewModel.isConnected(context)) {
                         isNoInternet = false
-                        webViewInstance = viewModel.createWebView()
                     }
                 }
 
                 viewModel.isError.value -> ErrorScreen {
-                    webViewInstance = viewModel.createWebView() // Recreate WebView on retry
                 }
 
-                webViewInstance != null -> WebViewScreen(
-                    webViewInstance!!,
-                    isSwipeRefreshEnabled,
-                    0.5f
-                )
             }
         }
     }
