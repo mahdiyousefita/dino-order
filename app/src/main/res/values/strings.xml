@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name" translatable="false">دیان | شرکت ها و موسسات</string>
+    <string name="and">and</string>
+    <string name="english" translatable="false">English (انگلیسی)</string>
+    <string name="farsi" translatable="false">Farsi (فارسی)</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="light_theme">Light Theme</string>
+    <string name="system_settings">System Settings</string>
+    <string name="empty" translatable="false" />
+    <string name="error">خطا</string>
+    <string name="successful">موفق</string>
+    <string name="dialog_type_icon">نوع آیکون دیالوگ</string>
+    <string name="ok">قبول</string>
+    <string name="error_message_title">خطا! مشکلی پیش آمده است</string>
+    <string name="error_message_dsc">هنگام پردازش درخواست شما با خطایی مواجه شدیم. لطفا دوباره امتحان کنید.</string>
+    <string name="retry">تلاش دوباره</string>
+    <string name="no_internet_connection">مشکل اتصال به اینترنت</string>
+    <string name="no_internet_connection_dsc">لطفاً اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید.</string>
+    <string name="troubleshooting">مراحل عیب یابی:</string>
+    <string name="troubleshooting_step_one">اتصال وای فای خود را بررسی کنید</string>
+    <string name="troubleshooting_step_two">داده تلفن همراه را فعال کنید</string>
+    <string name="troubleshooting_step_three">بررسی کنید که حالت هواپیما خاموش است</string>
+</resources>
