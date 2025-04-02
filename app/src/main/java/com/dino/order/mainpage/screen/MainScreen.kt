@@ -42,16 +42,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun MainScreen() {
     val context = LocalContext.current
-    val activity = context as? Activity
-
     val viewModel: MainScreenViewModel = hiltViewModel()
-
-    var webViewInstance by remember { mutableStateOf<WebView?>(null) }
-
     var isNoInternet by remember { mutableStateOf(!viewModel.isConnected(context)) }
-
-    val systemUiController = rememberSystemUiController()
-
 
     // Swipe refresh state
     var isSwipeRefreshEnabled by remember { mutableStateOf(true) }
@@ -98,6 +90,7 @@ fun MainScreen() {
 
             }
 
+            // todo: fake pages
             val pages = listOf(
                 PageType.SolidWithBackgroundImageAndDiscScreen(
                     backgroundImageId = R.drawable.images,
@@ -142,6 +135,7 @@ fun MainScreen() {
                 }
             }
 
+            // todo: fake data
             val productList = listOf(
                 Product("Smart Watch", "Off just for today", "https://caspian20.cdn.asset.aparat.com/aparat-video/e78daba00a331235fbadac11bd044d3163910510-1080p.mp4?wmsAuthSign=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6IjFmYTA5ZWMxNjQ3NGMxZjJmMTYyODlkYzg0ZWUzNDdjIiwiZXhwIjoxNzQzNTYzNTAzLCJpc3MiOiJTYWJhIElkZWEgR1NJRyJ9.GZlP5yzOf0pvj0c6HePufy4e1lYB2Bt2ErEgliC5vHY",
                     isImage = false),
