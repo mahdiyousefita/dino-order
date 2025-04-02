@@ -100,6 +100,16 @@ dependencies {
 
     implementation(libs.accompanist.systemuicontroller)
 
+    // Core ExoPlayer
+    implementation("androidx.media3:media3-exoplayer:1.6.0")
 
+    // UI for ExoPlayer
+    implementation("androidx.media3:media3-ui:1.6.0")
+
+    // Optional: Common media utilities
+    implementation("androidx.media3:media3-common:1.6.0")
+
+    // Coil
+    implementation("io.coil-kt:coil-compose:2.2.2")
 
 }
