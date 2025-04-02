@@ -57,7 +57,7 @@ class DataStoreUtil @Inject constructor(private val context: Context) {
      */
     fun getLanguage(): Flow<AppLanguage> = context.dataStore.data.map { preferences ->
         AppLanguage.valueOf(
-            preferences[LANGUAGE_KEY] ?: AppLanguage.Farsi.name
+            preferences[LANGUAGE_KEY] ?: AppLanguage.English.name
         )
     }
 

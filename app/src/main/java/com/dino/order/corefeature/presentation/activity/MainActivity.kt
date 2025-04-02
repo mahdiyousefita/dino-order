@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
 
             // Retrieve the app theme and app language from the view model
             val theme = viewModel.getSystemTheme(systemTheme).collectAsState(initial = systemTheme)
-            val appLanguage = viewModel.appLanguage.collectAsState(initial = AppLanguage.Farsi)
+            val appLanguage = viewModel.appLanguage.collectAsState(initial = AppLanguage.English)
 
             // Create a navigation controller
             navController = rememberNavController()
