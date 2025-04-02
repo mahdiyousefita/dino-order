@@ -72,12 +72,13 @@ fun SplashScreen(navController: NavController) {
             .padding(16.dp)
     ) {
         Icon(
-            painterResource(R.drawable.ic_launcher_foreground),
+            painterResource(R.drawable.ic_dino),
             contentDescription = null,
             modifier = Modifier
                 .size(180.dp)
                 .scale(animationCoefficient),
-            tint = if (isSystemInDarkTheme()) Color.White else Color.Black
+            tint = Color.Unspecified // Prevents forced color tinting
+//            tint = if (isSystemInDarkTheme()) Color.White else Color.Black
         )
     }
 }

@@ -17,4 +17,9 @@
     <string name="troubleshooting_step_one">اتصال وای فای خود را بررسی کنید</string>
     <string name="troubleshooting_step_two">داده تلفن همراه را فعال کنید</string>
     <string name="troubleshooting_step_three">بررسی کنید که حالت هواپیما خاموش است</string>
+    <string name="home">صفحه اصلی</string>
+    <string name="profile">پروفایل</string>
+    <string name="hellooo">سلاااام!</string>
+    <string name="buy_now">خرید</string>
+
 </resources>
